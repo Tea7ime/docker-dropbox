@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Following 'How do I add or remove Dropbox from my Linux repository?' - https://www.dropbox.com/en/help/246
 # You have connection issues to pgp.mit.edu. Just keep retrying.
 RUN echo 'deb http://linux.dropbox.com/debian jessie main' > /etc/apt/sources.list.d/dropbox.list \
-	&& apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
+	&& apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E \
 	&& apt-get -qqy update \
 	# Note 'ca-certificates' dependency is required for 'dropbox start -i' to succeed
     && apt-get -qqy install ca-certificates curl python-gpgme libatomic1 dropbox \
@@ -47,4 +47,5 @@ COPY dropbox /usr/bin/dropbox
 
 WORKDIR /dbox/Dropbox
 EXPOSE 17500
+VOLUME ["/dbox/.dropbox", "/dbox/Dropbox"]
 ENTRYPOINT ["/root/run"]
